@@ -67,7 +67,7 @@ export default function Detail() {
                     </div>
                     <div className="actions d-flex justify-content-around align-items-center mt-4 py-3 border-top">
                         <div className="d-flex align-items-center">
-                            {post&&post.likes.includes(user.uid)?<ThumbUpIcon className="me-2 text-primary" style={{ cursor: 'pointer'}}  onClick={handleLikes}/>:<ThumbUpOffAltIcon className="me-2 text-primary" style={{ cursor: 'pointer'}} onClick={handleLikes}/>}
+                            {post&&post.likes.includes(user?.uid)?<ThumbUpIcon className="me-2 text-primary" style={{ cursor: 'pointer'}}  onClick={handleLikes}/>:<ThumbUpOffAltIcon className="me-2 text-primary" style={{ cursor: 'pointer'}} onClick={handleLikes}/>}
                             {/*post&&user&&<ThumbUpIcon className="me-2 text-primary" style={{ cursor: 'pointer'}} onClick={handleLikes}/>*/}
                             {post&&<span>{post?.likes.length}</span>}
                         </div>
