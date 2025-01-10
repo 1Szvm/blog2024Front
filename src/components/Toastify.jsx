@@ -11,7 +11,7 @@ export default function Toastify({err,signin,signUp,resetPw,update}) {
     const navigate=useNavigate()
     useEffect(()=>{
         if(err){
-            toast.error(err,{position:"top-left"})
+            toast.error(err,{position:"bottom-right"})
         }else if(signin||signUp){
             toast.success(signin,{position:"bottom-right"})
             setTimeout(()=>navigate("/"),2000)
