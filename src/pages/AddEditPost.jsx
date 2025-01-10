@@ -12,7 +12,7 @@ import { CategContext } from '../context/Context'
 import { CatDropdown } from '../components/Dropdown'
 import Alerts from '../components/Alerts'
 import { useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 export const AddEditPost = () => {
   const {categories}=useContext(CategContext)
@@ -26,6 +26,7 @@ export const AddEditPost = () => {
   const [post,setPost]=useState(null)
   const {register,handleSubmit,formState: { errors },reset,setValue} = useForm()
   const params=useParams()
+  const navigate=useNavigate()
 
   useEffect(()=>{
     if(params?.id)readPost(params.id,setPost)
@@ -41,10 +42,16 @@ export const AddEditPost = () => {
   },[post])
 
   const onSubmit=async(data)=>{
+    console.log("nig");
+    
     setLoading(true)
     if(params.id){
       try {
-        updatePost(params.id,{...data,category:selectedCateg,story}) 
+        updatePost(params.id,{...data,category:selectedCateg,story})
+        setUploaded(true)
+        setTimeout(function(){
+          navigate("/posts/")
+        },2000)
       } catch (error) {
         console.log("update: ",error);
       }finally{
@@ -64,15 +71,14 @@ export const AddEditPost = () => {
         const {url,id}=file ? await uploadFile(file) : null
         delete newPostData.file
         newPostData={...newPostData,photo:{url,id}}
-        console.log(newPostData,user.uid,user);
-        console.log("ujid");
-        
         addPost(newPostData)
         setUploaded(true)
         reset()
         setPhoto(null)
         setStory(null)
-        //updateUser(data.displayName,url+'/'+id)
+        setTimeout(function(){
+          navigate("/posts/")
+        },2000)
       } catch (error) {
         console.log(error);
       }finally{
@@ -131,7 +137,7 @@ export const AddEditPost = () => {
 
       <div className="form-group">
         <button type="submit" className="btn btn-primary" disabled={enableBtn}>
-          {loading ? 'Töltés...' : 'Bejegyzés hozzáadása'}
+          {loading ? 'Töltés...' : params.id? 'Poszt frissítése':'Bejegyzés hozzáadása'}
         </button>
       </div>
     </form>
