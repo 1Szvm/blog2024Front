@@ -29,10 +29,7 @@ export const AddEditPost = () => {
 
   useEffect(()=>{
     if(params?.id)readPost(params.id,setPost)
-  },[params.id])
-
-  console.log(post);
-  
+  },[params.id])  
 
   const onSubmit=async(data)=>{
     setLoading(true)
@@ -78,9 +75,7 @@ export const AddEditPost = () => {
 
   return (
     <div className="page">
-    {/* Form for adding/editing posts */}
     <form onSubmit={handleSubmit(onSubmit)} className="post-form">
-      {/* Title input */}
       <div className="form-group">
         <label htmlFor="title">A bejegyzés</label>
         <input
@@ -94,10 +89,8 @@ export const AddEditPost = () => {
 
       <CatDropdown categories={categories} setSelectedCateg={setSelectedCateg} selectedCateg={selectedCateg}/>
 
-      {/* Story component */}
       <Story setStory={setStory} uploaded={uploaded} />
 
-      {/* File input with validation */}
       <div className="form-group">
         <label htmlFor="file">Fájl</label>
         <input
@@ -121,7 +114,6 @@ export const AddEditPost = () => {
         <p className="text-danger">{errors?.file&&"fotó megadása kötelező"}</p>
       </div>
 
-      {/* Submit button */}
       <div className="form-group">
         <button type="submit" className="btn btn-primary" disabled={enableBtn}>
           {loading ? 'Töltés...' : 'Bejegyzés hozzáadása'}
@@ -129,10 +121,8 @@ export const AddEditPost = () => {
       </div>
     </form>
 
-    {/* Loading spinner */}
     {loading && <BarLoader />}
     {uploaded && <Alerts txt="Sikeres feltőltés"/>}
-    {/* Display uploaded photo preview */}
     {photo && <img src={photo} alt="Preview" className="img-thumbnail mt-3" />}
   </div>
   )

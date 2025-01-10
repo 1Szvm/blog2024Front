@@ -3,6 +3,7 @@ import { CategContext } from '../context/Context';
 import { readPosts } from '../utility/crudUtility';
 import { sanitizerHTML } from '../utility/utils';
 import {useNavigate, useSearchParams} from 'react-router-dom'
+import { SearchBox } from '../components/SearchBox';
 
 export const Posts = () => {
   const [searchParams]=useSearchParams()
@@ -26,8 +27,9 @@ export const Posts = () => {
   };
 
   return (
-    <div className="d-flex flex-column justify-content-center align-items-center min-vh-100">
-      <div className="btn-group p-4" role="group" aria-label="Category selection">
+    <div className="d-flex flex-column justify-content-center align-items-center min-vh-100 page">
+      <div className='pt-4'>{posts && <SearchBox items={posts.map(obj=>({id:obj.id,name:obj.title}))}/>}</div>
+      <div className="btn-group pb-4" role="group" aria-label="Category selection">
         {categories && categories.map((category) => (
           <div key={category.id} className="p-1">
             <input
