@@ -47,43 +47,51 @@ export const Posts = () => {
         ))}
       </div>
 
-      <div className="card-group">
-  {posts && posts.length > 0 ? (
-    posts.map((post) => (
-      <div
-        key={post.id}
-        className="card bg-secondary text-white border-light mb-4"
-        style={{
-          maxWidth: "500px",
-          minHeight: "400px", // Increased height for the card
-          display: "flex",
-          flexDirection: "column",
-        }}
-        onClick={()=>navigate("/detail/"+post.id)}
-      >
-        <img
-          src={post.photo.url}
-          className="img-fluid rounded"
-          style={{
-            objectFit: "cover",
-            height: "250px", // Increased height for the image
-          }}
-          alt={post.title}
-        />
-        <div className="card-body">
-          <h5 className="card-title">{post.title}</h5>
-          <p className="card-text">{sanitizerHTML(post.story)}</p>
-          <p className="card-text">
-            <small className="p-2 border border-3 rounded">{post.category}</small>
-          </p>
+        <div className="container">
+        <div className="row">
+          {posts && posts.length > 0 ? (
+            posts.map((post) => (
+              <div
+                key={post.id}
+                className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4" // Adjust column size for different screen widths
+              >
+                <div
+                  className="card bg-secondary text-white border-light"
+                  style={{
+                    maxWidth: "100%",
+                    minHeight: "400px", // Increased height for the card
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                  onClick={() => navigate("/detail/" + post.id)}
+                >
+                  <img
+                    src={post.photo.url}
+                    className="img-fluid rounded"
+                    style={{
+                      objectFit: "cover",
+                      height: "250px", // Increased height for the image
+                    }}
+                    alt={post.title}
+                  />
+                  <div className="card-body">
+                    <h5 className="card-title">{post.title}</h5>
+                    <p className="card-text">{sanitizerHTML(post.story)}</p>
+                    <p className="card-text">
+                      <small className="p-2 border border-3 rounded">
+                        {post.category}
+                      </small>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p className="text-center text-muted">No posts available in this category.</p>
+          )}
         </div>
       </div>
-    ))
-  ) : (
-    <p className="text-center text-muted">No posts available in this category.</p>
-  )}
-</div>
 
-    </div>
+      </div>
   );
 };

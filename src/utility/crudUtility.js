@@ -58,6 +58,10 @@ export const toggleLike=async (id,uid)=>{
   }
 }
 
+export const updatePost=async (id,{title,category,story})=>{
+  const docRef= doc(db, "posts", id);
+  await updateDoc(docRef,{title,category,story})
+}
 
 
 

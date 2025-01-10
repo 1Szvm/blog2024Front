@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form'
 import { Story } from '../components/Story'
 import { uploadFile } from '../utility/uploadFile'
 import { BarLoader } from 'react-spinners'
-import { addPost, readPost } from '../utility/crudUtility'
+import { addPost, readPost, updatePost } from '../utility/crudUtility'
 import { CategContext } from '../context/Context'
 import { CatDropdown } from '../components/Dropdown'
 import Alerts from '../components/Alerts'
@@ -24,45 +24,60 @@ export const AddEditPost = () => {
   const [enableBtn,setEnableBtn]=useState(false)
   const [selectedCateg,setSelectedCateg]=useState(null)
   const [post,setPost]=useState(null)
-  const {register,handleSubmit,formState: { errors },reset} = useForm()
+  const {register,handleSubmit,formState: { errors },reset,setValue} = useForm()
   const params=useParams()
 
   useEffect(()=>{
     if(params?.id)readPost(params.id,setPost)
   },[params.id])  
 
+  useEffect(()=>{
+    if(post){
+      setValue("title",post.title)
+      setSelectedCateg(post.category)
+      setStory(post.story)
+      setPhoto(post.photo.url)
+    }
+  },[post])
+
   const onSubmit=async(data)=>{
     setLoading(true)
-    console.log("addedit:",user.uid);
-    
-    let newPostData={
-      ...data,
-      story,
-      author:user.displayName,
-      userId:user.uid,
-      category:selectedCateg,
-      likes:[]
-    }
-    console.log(newPostData);
-    
-    try {
-      const file=data.file[0]
-      const {url,id}=file ? await uploadFile(file) : null
-      delete newPostData.file
-      newPostData={...newPostData,photo:{url,id}}
-      console.log(newPostData,user.uid,user);
-      console.log("ujid");
-      
-      addPost(newPostData)
-      setUploaded(true)
-      reset()
-      setPhoto(null)
-      setStory(null)
-      //updateUser(data.displayName,url+'/'+id)
-    } catch (error) {
-      console.log(error);
-    }finally{
-      setLoading(false)
+    if(params.id){
+      try {
+        updatePost(params.id,{...data,category:selectedCateg,story}) 
+      } catch (error) {
+        console.log("update: ",error);
+      }finally{
+        setLoading(false)
+      }
+    }else{
+      let newPostData={
+        ...data,
+        story,
+        author:user.displayName,
+        userId:user.uid,
+        category:selectedCateg,
+        likes:[]
+      }
+      try {
+        const file=data.file[0]
+        const {url,id}=file ? await uploadFile(file) : null
+        delete newPostData.file
+        newPostData={...newPostData,photo:{url,id}}
+        console.log(newPostData,user.uid,user);
+        console.log("ujid");
+        
+        addPost(newPostData)
+        setUploaded(true)
+        reset()
+        setPhoto(null)
+        setStory(null)
+        //updateUser(data.displayName,url+'/'+id)
+      } catch (error) {
+        console.log(error);
+      }finally{
+        setLoading(false)
+      }
     }
   }
 
@@ -89,15 +104,15 @@ export const AddEditPost = () => {
 
       <CatDropdown categories={categories} setSelectedCateg={setSelectedCateg} selectedCateg={selectedCateg}/>
 
-      <Story setStory={setStory} uploaded={uploaded} />
+      <Story setStory={setStory} uploaded={uploaded} story={story}/>
 
       <div className="form-group">
         <label htmlFor="file">Fájl</label>
-        <input
+        <input disabled={params.id}
           id="file"
           type="file"
-          {...register("file", {
-            required:true,
+          {...register("file",params.id?{}:{
+            required:!params.id,
             validate: (value) => {
               if (!value[0]) return true
               const fileExtension = value[0]?.name.split(".").pop().toLowerCase()
