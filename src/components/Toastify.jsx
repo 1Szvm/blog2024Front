@@ -13,7 +13,7 @@ export default function Toastify({err,signin,signUp,resetPw,update}) {
         if(err){
             toast.error(err,{position:"top-left"})
         }else if(signin||signUp){
-            toast.success(signin,{position:"top-left"})
+            toast.success(signin,{position:"bottom-right"})
             setTimeout(()=>navigate("/"),2000)
         }else if(resetPw){
             toast.success(resetPw,{position:"top-left"})
