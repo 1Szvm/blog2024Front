@@ -48,8 +48,8 @@ export const Auth = () => {
         <Button> Submit  </Button>
       </Form>
       <a href="#" onClick={()=>{navigate("/pwreset")}}>Elfelejtett jelszó...</a>
-      {msg &&<Toastify {...msg}/>}
      </div>
+      {msg &&<Toastify {...msg}/>}
     </div>
   )
 }

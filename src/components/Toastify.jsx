@@ -23,7 +23,6 @@ export default function Toastify({err,signin,signUp,resetPw,update}) {
         }
         setMsg({})
     },[err,signin,signUp, resetPw,update])
-//kjdskjgauzg
   return (
     <div>
         <ToastContainer />
