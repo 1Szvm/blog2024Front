@@ -48,7 +48,7 @@ export const Header=()=> {
           
           </Nav>
 {/* autorizáció*/}
-          <Nav navbar>
+          <Nav navbar>  
           { !user ? 
           <>
             <NavItem>
